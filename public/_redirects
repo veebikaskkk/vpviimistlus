@@ -1,0 +1,5 @@
+# Workeri assets lubab siin ainult suhtelisi aadresse. Absoluutne reegel
+# annab hoiatuse ja jäetakse vahele, seega www suunamine on worker.js sees.
+#
+# Näide, kui mõni vana aadress vajab hiljem suunamist:
+# /vana-aadress /#teenused 301

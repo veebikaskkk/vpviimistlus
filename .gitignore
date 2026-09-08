@@ -1,0 +1,10 @@
+
+.DS_Store
+.dev.vars
+.env
+.wrangler
+lahtematerjal
+node_modules
+
+# Sisemine töömaterjal, ei kuulu avalikku hoidlasse
+MASTER-PROMPTID*.md
