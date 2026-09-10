@@ -36,6 +36,13 @@
   var lingid = Array.prototype.slice.call(document.querySelectorAll(".galerii-link"));
 
   if (lingid.length && typeof HTMLDialogElement === "function") {
+    /* Ikoonid on SVG, sest fondi märgid × ja ‹ › ei istu nupu keskele. */
+    var ikoon = function (joon) {
+      return '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">' +
+        '<path d="' + joon + '" fill="none" stroke="currentColor" stroke-width="2.2" ' +
+        'stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    };
+
     var aken = document.createElement("dialog");
     aken.className = "suurendus";
     aken.setAttribute("aria-label", "Foto suurelt");
@@ -45,9 +52,9 @@
         '<figcaption class="suurendus-tekst"></figcaption>' +
       '</figure>' +
       '<p class="suurendus-loendur" aria-live="polite"></p>' +
-      '<button type="button" class="suurendus-nupp suurendus-eelmine" aria-label="Eelmine foto">‹</button>' +
-      '<button type="button" class="suurendus-nupp suurendus-jargmine" aria-label="Järgmine foto">›</button>' +
-      '<button type="button" class="suurendus-nupp suurendus-sulge" aria-label="Sulge">×</button>';
+      '<button type="button" class="suurendus-nupp suurendus-eelmine" aria-label="Eelmine foto">' + ikoon("M15 5l-7 7 7 7") + '</button>' +
+      '<button type="button" class="suurendus-nupp suurendus-jargmine" aria-label="Järgmine foto">' + ikoon("M9 5l7 7-7 7") + '</button>' +
+      '<button type="button" class="suurendus-nupp suurendus-sulge" aria-label="Sulge">' + ikoon("M6 6l12 12M18 6L6 18") + '</button>';
     document.body.appendChild(aken);
 
     var suurPilt = aken.querySelector(".suurendus-pilt");

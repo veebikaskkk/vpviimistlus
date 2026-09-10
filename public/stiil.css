@@ -130,7 +130,7 @@ a:hover { text-decoration-thickness: 2px; }
   margin: 0;
   padding: 0;
 }
-.menuu a {
+.menuu ul a {
   color: #e8e9ef;
   text-decoration: none;
   font-size: 0.9375rem;
@@ -138,7 +138,7 @@ a:hover { text-decoration-thickness: 2px; }
   padding: 0.4rem 0;
   border-bottom: 2px solid transparent;
 }
-.menuu a:hover { border-bottom-color: var(--roosa); }
+.menuu ul a:hover { border-bottom-color: var(--roosa); }
 
 .menuunupp {
   display: none;
@@ -386,6 +386,8 @@ html:has(.suurendus[open]) { overflow: hidden; }
 
 .suurendus-nupp {
   position: absolute;
+  display: grid;
+  place-items: center;
   width: 48px;
   height: 48px;
   padding: 0;
@@ -393,11 +395,9 @@ html:has(.suurendus[open]) { overflow: hidden; }
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.08);
   color: #fff;
-  font: inherit;
-  font-size: 1.75rem;
-  line-height: 1;
   cursor: pointer;
 }
+.suurendus-nupp svg { display: block; }
 .suurendus-nupp:hover { background: var(--roosa); border-color: var(--roosa); }
 .suurendus-sulge { top: 0.75rem; right: 0.75rem; }
 .suurendus-eelmine,
@@ -564,7 +564,7 @@ html:has(.suurendus[open]) { overflow: hidden; }
   .pais-sisu { position: relative; }
   .menuu ul { flex-direction: column; gap: 0; }
   .menuu li { border-bottom: 1px solid #262a38; }
-  .menuu a { display: block; padding: 0.8rem 0; font-size: 1rem; }
+  .menuu ul a { display: block; padding: 0.8rem 0; font-size: 1rem; }
   .nupp-pais { text-align: center; margin-top: 0.5rem; }
 
   .hero-ruut { grid-template-columns: minmax(0, 1fr); }

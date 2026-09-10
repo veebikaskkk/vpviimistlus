@@ -41,11 +41,48 @@ GALERII = [
 HERO = "fototapeet-metsamotiiviga-elutoas"
 
 
+def mustad_aared(pilt, lavi=28, osa=0.97, varu=2):
+    """Leiab pildi servadest mustad ribad, mille telefon või portaal on
+    lisanud. Rida või veerg loetakse mustaks, kui vähemalt 97% selle
+    pikslitest on tumedamad kui lävi. Kontrollitakse ainult servast
+    sissepoole, kollaaži sees olevat musta tausta see ei puuduta."""
+    hall = pilt.convert("L")
+    laius, korgus = hall.size
+    px = hall.load()
+
+    def must_veerg(x):
+        return sum(px[x, y] < lavi for y in range(korgus)) >= osa * korgus
+
+    def must_rida(y):
+        return sum(px[x, y] < lavi for x in range(laius)) >= osa * laius
+
+    vasak = 0
+    while vasak < laius // 3 and must_veerg(vasak):
+        vasak += 1
+    parem = laius
+    while parem > laius * 2 // 3 and must_veerg(parem - 1):
+        parem -= 1
+    ules = 0
+    while ules < korgus // 3 and must_rida(ules):
+        ules += 1
+    alla = korgus
+    while alla > korgus * 2 // 3 and must_rida(alla - 1):
+        alla -= 1
+
+    # JPEG jätab riba ja foto vahele tumeda ülemineku, varu võtab selle ka ära
+    if vasak: vasak += varu
+    if parem < laius: parem -= varu
+    if ules: ules += varu
+    if alla < korgus: alla -= varu
+    return vasak, ules, parem, alla
+
+
 def ava(nimi):
     tee = LAHE / f"vp-viimistlus-ja-puhastus-{nimi}.jpg"
     pilt = ImageOps.exif_transpose(Image.open(tee)).convert("RGB")
     laius, korgus = pilt.size
     pilt = pilt.crop((0, 0, laius, korgus - VESIMARK_KORGUS))
+    pilt = pilt.crop(mustad_aared(pilt))
     # Hange.ee on pildid korduvalt JPEG-iks pakkinud ja need on pehmed.
     # Kerge teravustus toob servad tagasi, suurem tekitaks halosid.
     return pilt.filter(ImageFilter.UnsharpMask(radius=1.2, percent=55, threshold=2))
