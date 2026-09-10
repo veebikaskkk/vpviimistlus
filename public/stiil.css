@@ -305,6 +305,91 @@ a:hover { text-decoration-thickness: 2px; }
   background: #e9e7ee;
 }
 
+.galerii-link {
+  display: block;
+  border-radius: 12px;
+  cursor: zoom-in;
+}
+.galerii-link img { transition: border-color 0.2s ease, filter 0.2s ease; }
+.galerii-link:hover img {
+  border-color: var(--roosa);
+  filter: brightness(1.04);
+}
+
+/* --- galerii suurendus --- */
+
+.suurendus {
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgba(11, 14, 20, 0.95);
+  color: #eceef4;
+  overflow-y: auto;
+  --fookus: var(--roosa);
+}
+.suurendus[open] { display: grid; place-items: center; }
+.suurendus::backdrop { background: rgba(11, 14, 20, 0.6); }
+html:has(.suurendus[open]) { overflow: hidden; }
+
+.suurendus-sisu {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 100%;
+  padding: 3.75rem 5rem 1.5rem;
+}
+
+.suurendus-pilt {
+  width: auto;
+  max-width: 100%;
+  max-height: calc(100dvh - 9.5rem);
+  border-radius: 8px;
+  background: #1a1e29;
+}
+
+.suurendus-tekst {
+  max-width: 46rem;
+  text-align: center;
+  font-size: 0.9375rem;
+  color: #b9bcc9;
+}
+
+.suurendus-loendur {
+  position: absolute;
+  top: 1.35rem;
+  left: 1.25rem;
+  margin: 0;
+  font-size: 0.875rem;
+  color: #b9bcc9;
+}
+
+.suurendus-nupp {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid #3a3f52;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font: inherit;
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.suurendus-nupp:hover { background: var(--roosa); border-color: var(--roosa); }
+.suurendus-sulge { top: 0.75rem; right: 0.75rem; }
+.suurendus-eelmine,
+.suurendus-jargmine { top: 50%; transform: translateY(-50%); }
+.suurendus-eelmine { left: 1rem; }
+.suurendus-jargmine { right: 1rem; }
+
 /* --- video --- */
 
 .lahter-video { scroll-margin-top: calc(var(--pais-korgus) + 1rem); }
@@ -479,6 +564,12 @@ a:hover { text-decoration-thickness: 2px; }
   .raam { width: min(var(--raam-laius), 100% - 2rem); }
   .teenusruut { grid-template-columns: minmax(0, 1fr); }
   .galerii { columns: 1; }
+  .suurendus-sisu { padding: 3.75rem 0.75rem 5.5rem; }
+  .suurendus-pilt { max-height: calc(100dvh - 15rem); }
+  .suurendus-eelmine,
+  .suurendus-jargmine { top: auto; bottom: 1rem; transform: none; }
+  .suurendus-eelmine { left: calc(50% - 60px); }
+  .suurendus-jargmine { right: calc(50% - 60px); }
   .hero-nupud .nupp { flex: 1 1 100%; text-align: center; }
 }
 

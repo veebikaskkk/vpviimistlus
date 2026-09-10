@@ -9,7 +9,7 @@ Majutus Cloudflare Workeri peal.
       index.html       kogu leht
       404.html         veateade
       stiil.css        kogu kujundus
-      skript.js        mobiilimenüü ja video käivitamine
+      skript.js        mobiilimenüü, galerii suurendus ja video käivitamine
       pildid/          WebP fotod, ornament ja jagamispilt
       fondid/          Plus Jakarta Sans, majutatud koos lehega
       _headers         turvapäised ja vahemälu
@@ -33,8 +33,10 @@ Majutus Cloudflare Workeri peal.
    sitemap.xml.
 
 2. **Fotod.** Kõik pildid on võetud firma hange.ee profiililt. Portaal lisab
-   igale pildile oma vesimärgi, `ehita.py` lõikab selle alumise 76 piksliga
-   maha. Lähtefailid on seetõttu madalama kvaliteediga kui originaalid.
+   igale pildile oma vesimärgi, `ehita.py` lõikab selle alumise 56 piksliga
+   maha ja teravustab pilte kergelt. Hange.ee jagab avalikult ainult 300 px
+   (`thumb`) ja 900 px (`large`) versiooni, originaalid seal kättesaadavad
+   ei ole. 900 px ongi lehe fotode ülempiir.
    **Küsi kliendilt originaalfotod telefonist**, pane need `lahtematerjal/`
    kausta ja jooksuta `python3 ehita.py` uuesti. Siis kaob vajadus lõikamise
    järele ja pildid lähevad teravamaks.

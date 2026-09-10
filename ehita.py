@@ -7,15 +7,17 @@ Skript on korratav: kaks käivitust annavad baidi pealt sama tulemuse.
 Kasutus:  python3 ehita.py
 """
 
-from PIL import Image, ImageDraw, ImageOps
+from PIL import Image, ImageDraw, ImageFilter, ImageOps
 from pathlib import Path
 
 LAHE = Path("lahtematerjal")
 VALJUND = Path("public/pildid")
 
-# Hange.ee lisab oma vaates igale pildile alumisse serva vesimärgi.
-# See riba lõigatakse maha, sest kliendi enda lehele see ei kuulu.
-VESIMARK_KORGUS = 76
+# Hange.ee lisab oma vaates igale pildile alumisse serva vesimärgi:
+# vasakule "Hange.ee" logo ja paremale firma embleemi. Mõlemad jäävad
+# alumise 52 piksli sisse, 4 pikslit on varuks. Riba lõigatakse maha,
+# sest kliendi enda lehele see ei kuulu.
+VESIMARK_KORGUS = 56
 
 TUME = (11, 14, 20)
 ROOSA = (233, 91, 149)
@@ -24,16 +26,16 @@ VALGE = (255, 255, 255)
 # lähtefail, väljundnimi, maksimumlaius
 GALERII = [
     ("siseviimistlustood-71611", "fototapeet-metsamotiiviga-elutoas", 900),
-    ("siseviimistlustood-71610", "fototapeet-ornamendiga-magamistoas", 800),
-    ("korterite-remont-71612", "korteri-remont-enne-ja-parast", 800),
-    ("maalritood-71605", "toa-ettevalmistus-varvimiseks", 800),
-    ("siseviimistlustood-71609", "fototapeet-lastetoa-seinal", 800),
-    ("maalritood-71602", "maalritood-enne-ja-parast", 800),
-    ("korterite-remont-71604", "varvitud-seinte-ja-laega-tuba", 800),
-    ("korterite-remont-71603", "seinakarkass-korteri-remondil", 800),
-    ("puhastusteenused-71592", "vannitoa-puhastus-enne-ja-parast", 800),
-    ("puhastusteenused-71600", "koristatud-koogi-tooplaan", 800),
-    ("puhastusteenused-71601", "puhastatud-aken-parast-remonti", 800),
+    ("siseviimistlustood-71610", "fototapeet-ornamendiga-magamistoas", 900),
+    ("korterite-remont-71612", "korteri-remont-enne-ja-parast", 900),
+    ("maalritood-71605", "toa-ettevalmistus-varvimiseks", 900),
+    ("siseviimistlustood-71609", "fototapeet-lastetoa-seinal", 900),
+    ("maalritood-71602", "maalritood-enne-ja-parast", 900),
+    ("korterite-remont-71604", "varvitud-seinte-ja-laega-tuba", 900),
+    ("korterite-remont-71603", "seinakarkass-korteri-remondil", 900),
+    ("puhastusteenused-71592", "vannitoa-puhastus-enne-ja-parast", 900),
+    ("puhastusteenused-71600", "koristatud-koogi-tooplaan", 900),
+    ("puhastusteenused-71601", "puhastatud-aken-parast-remonti", 900),
 ]
 
 HERO = "fototapeet-metsamotiiviga-elutoas"
@@ -43,10 +45,13 @@ def ava(nimi):
     tee = LAHE / f"vp-viimistlus-ja-puhastus-{nimi}.jpg"
     pilt = ImageOps.exif_transpose(Image.open(tee)).convert("RGB")
     laius, korgus = pilt.size
-    return pilt.crop((0, 0, laius, korgus - VESIMARK_KORGUS))
+    pilt = pilt.crop((0, 0, laius, korgus - VESIMARK_KORGUS))
+    # Hange.ee on pildid korduvalt JPEG-iks pakkinud ja need on pehmed.
+    # Kerge teravustus toob servad tagasi, suurem tekitaks halosid.
+    return pilt.filter(ImageFilter.UnsharpMask(radius=1.2, percent=55, threshold=2))
 
 
-def salvesta(pilt, nimi, max_laius, kvaliteet=78):
+def salvesta(pilt, nimi, max_laius, kvaliteet=84):
     """Uut Image objekti salvestades kaob EXIF ja sellega ka GPS."""
     if pilt.width > max_laius:
         korgus = round(pilt.height * max_laius / pilt.width)
